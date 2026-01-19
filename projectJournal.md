@@ -50,3 +50,26 @@ using the "uv add" command, which adds dependencies to the project and requireme
 
 #### Step 5: youtube.py script
 Started on the youtube.py script to understand what packages to install, and how to get transcript data from YouTube for its videos.
+
+## Step 1: 2026-01-18
+This step mainly included figuring out how to traverse the YouTube Data API v3 to get YouTube videos
+
+#### Step 1: Find YouTube API to get videos
+Followed the instructions linked here, https://developers.google.com/youtube/v3/quickstart/python#step_1_set_up_your_project_and_credentials, to set up an API_KEY and use the YouTube API.
+
+#### Step 2: Get YouTube videos based on a channel username
+Went to YouTube's API documentation here, https://developers.google.com/youtube/v3/docs, to find the API methods available under "Channels" (https://developers.google.com/youtube/v3/docs/channels).
+
+Saw that there's a list channels API available (https://developers.google.com/youtube/v3/docs/channels/list) that lists all of the channel resources available in a particular channel, tried it out as a curl command such as:
+
+```
+curl 'https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&forUsername={{channelUsername}}&key={{API_KEY}}' --header 'Accept: application/json' --compressed
+```
+
+This response then gives the playlist ID that YouTube uses an object for all the videos of a channel, so then I read the documentation on how to get the videos from a playlist ID, and got this API (https://developers.google.com/youtube/v3/docs/playlistItems/list) that can list all the videos in a specified playlist, tried it out as a curl command such as:
+
+```
+curl 'https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet%2CcontentDetails&maxResults=10&playlistId={{playlistId}}&key={{YOUR_API_KEY}}' --header 'Accept: application/json' --compressed
+```
+
+Then got the JSON response that lists out the videos, and coded all of this up in the youtube.py file.
