@@ -7,6 +7,14 @@ import requests
 YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
 YOUTUBE_API_URL = "https://youtube.googleapis.com/youtube/v3/"
 
+requestSession = requests.Session()
+requestSession.headers.update({
+	"Accept": "application/json"
+})
+requestSession.params.update({
+	"key": YOUTUBE_API_KEY
+})
+
 '''
 Get the latest videos from either a channel or a username within the past given hours.
 If both channel and username are provided, channel takes precedence.
@@ -36,13 +44,9 @@ def get_playlist_from_channel(username):
 	channelUrl = f"{YOUTUBE_API_URL}channels"
 	params = {
 		"part": "contentDetails",
-		"forUsername": username,
-		"key": YOUTUBE_API_KEY
+		"forUsername": username
 	}
-	headers = {
-		"Accept": "application/json"
-	}
-	channelResponse = requests.get(channelUrl, params=params, headers=headers)
+	channelResponse = requestSession.get(channelUrl, params=params)
 	channelResponse.raise_for_status()
 	channelData = channelResponse.json()
 	return channelData["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"]
@@ -56,13 +60,9 @@ def get_videos_from_playlist(playlistId):
 	params = {
 		"part": "snippet,contentDetails",
 		"playlistId": playlistId,
-		"maxResults": 50,
-		"key": YOUTUBE_API_KEY
+		"maxResults": 50
 	}
-	headers = {
-		"Accept": "application/json"
-	}
-	videoResponse = requests.get(playlistItemsUrl, params=params, headers=headers)
+	videoResponse = requestSession.get(playlistItemsUrl, params=params)
 	videoResponse.raise_for_status()
 	videoData = videoResponse.json()
 
