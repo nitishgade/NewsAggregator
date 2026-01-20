@@ -1,6 +1,5 @@
 import datetime
 import os
-import feedparser
 import youtube_transcript_api
 import requests
 
@@ -67,3 +66,21 @@ def get_videos_from_playlist(playlistId):
 	videoData = videoResponse.json()
 
 	return videoData["items"]
+
+'''
+Get the transcript text from a video given the videoId.
+'''
+def get_transcript_from_video(videoId):
+	try:
+		transcriptApi = youtube_transcript_api.YouTubeTranscriptApi()
+		transcript = transcriptApi.fetch(videoId)
+		transcript = transcript.to_raw_data()
+		transcriptText = " ".join([item["text"] for item in transcript])
+	except youtube_transcript_api.TranscriptsDisabled:
+		print(f"INFO: Transcripts are disabled for video {videoId}.")
+	except youtube_transcript_api.NoTranscriptFound:
+		print(f"INFO: No English/suitable transcript found for video {videoId}.")
+	except Exception as e:
+		print(f"ERROR: An unexpected error occurred for {videoId}: {e}")
+
+	return transcriptText
