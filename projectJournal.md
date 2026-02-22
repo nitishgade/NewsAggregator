@@ -73,3 +73,8 @@ curl 'https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet%2Ccon
 ```
 
 Then got the JSON response that lists out the videos, and coded all of this up in the youtube.py file.
+
+## Step 2: 2026-02-21
+#### Step 1: Get most recent news posts from OpenAI
+
+#### Step 2: Get most recent researc posts from Anthropic

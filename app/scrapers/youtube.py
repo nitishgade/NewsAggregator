@@ -3,7 +3,8 @@ import os
 import youtube_transcript_api
 import requests
 
-YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
+#YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
+YOUTUBE_API_KEY = "AIzaSyAJ_0mCg9z3UCpikSr0RIooFef_QY5NBog"
 YOUTUBE_API_URL = "https://youtube.googleapis.com/youtube/v3/"
 
 requestSession = requests.Session()
@@ -25,7 +26,7 @@ def get_latest_videos(username, hours):
 	videosInPlaylist = get_videos_from_playlist(playlistId) # now get the videos from that playlist
 
 	latestVideos = []
-	now = datetime.datetime.now(datetime.UTC)
+	now = datetime.datetime.now(datetime.timezone.utc)
 	for video in videosInPlaylist:
 		publishedAt = video["snippet"]["publishedAt"]
 		publishedAtDatetime = datetime.datetime.fromisoformat(publishedAt.replace("Z", "+00:00"))
