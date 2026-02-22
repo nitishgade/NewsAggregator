@@ -3,8 +3,7 @@ import os
 import youtube_transcript_api
 import requests
 
-#YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
-YOUTUBE_API_KEY = "AIzaSyAJ_0mCg9z3UCpikSr0RIooFef_QY5NBog"
+YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
 YOUTUBE_API_URL = "https://youtube.googleapis.com/youtube/v3/"
 
 requestSession = requests.Session()
