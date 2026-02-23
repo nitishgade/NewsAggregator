@@ -5,6 +5,7 @@ import sys
 import feedparser
 from curl_cffi import requests
 import trafilatura
+from helpers import get_article_content
 
 OPENAI_NEWS_RSS="https://openai.com/news/rss.xml"
 
@@ -24,21 +25,6 @@ def get_latest_openai_news(hours):
 				"title": entry.title,
 				"link": entry.link,
 				"summary": entry.summary if 'summary' in entry else "",
-				"text": get_article_content(entry.link),
+				"text": get_article_content(entry.link)[1],
 				"published_at": publishedAt
 			})
-
-
-'''
-Fetch the content of an article given its URL. Uses curl_cffi to get the webpage and trafilatura to extract the main content.
-'''
-def get_article_content(url):
-	try:
-		response = requests.get(url, impersonate="chrome120")
-		if response.status_code == 200:
-			content = trafilatura.extract(response.text)
-			return content if content else "No content extracted."
-		else:
-			return f"Failed with status: {response.status_code}"
-	except Exception as e:
-		return f"Could not fetch content for {url}: \nError is {e}"

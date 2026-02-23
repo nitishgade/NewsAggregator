@@ -6,4 +6,5 @@ AI News Aggregator from the YouTube tutorial by Dave Ebbelaar.
 sources for news:
 * https://openai.com/news/
 * https://www.anthropic.com/research
-* https://ai.google/research/
+* https://blog.google/technology/ai/
+

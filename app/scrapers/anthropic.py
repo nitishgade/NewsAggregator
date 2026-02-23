@@ -2,6 +2,7 @@ import datetime
 from curl_cffi import requests
 import xml.etree.ElementTree as ET
 import trafilatura
+from helpers import get_article_content
 
 ANTHROPIC_SITEMAP_URL="https://www.anthropic.com/sitemap.xml"
 
@@ -34,18 +35,3 @@ def get_latest_anthropic_research(hours):
 			})
 
 	return latest_research
-
-'''
-Fetch the content of an article given its URL. Uses curl_cffi to get the webpage and trafilatura to extract the main content.
-'''
-def get_article_content(url):
-	try:
-		response = requests.get(url, impersonate="chrome120")
-		if response.status_code == 200:
-			metadata = trafilatura.metadata.extract_metadata(response.text)
-			content = trafilatura.extract(response.text)
-			return (metadata.title,content) if content else "No content extracted."
-		else:
-			return f"Failed with status: {response.status_code}"
-	except Exception as e:
-		return f"Could not fetch content for {url}: \nError is {e}"
